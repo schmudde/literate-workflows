@@ -3,19 +3,68 @@
 :results: output
 :END:
 
-Set to a new origin:
-
-C-c C-c
+Run these commands with ~C-c C-c~.
 
 ~:results list~ This example runs in the shell. The results are placed back into the file, which can be used by other code blocks
 
-#+RESULTS:
-: - $master
+Inspired by [[http://howardism.org/Technical/Emacs/literate-devops.html][Literate Devops]]
+
+* GitHub Actions
 
 #+BEGIN_SRC shell :results list
-# git remote add origin "https://github.com/schmudde/literate-workflows.git"
+git init
+git remote add origin "https://github.com/schmudde/literate-workflows.git"
 git remote show origin
-git push --set-upstream origin master
+git pull
+#+END_SRC
+
+#+BEGIN_SRC sh
+git log --oneline
 #+END_SRC
 
 #+RESULTS:
+| d32fa64 | first   | commit |
+| 2405f14 | Initial | commit |
+
+#+BEGIN_SRC shell
+git log --all --grep='first' --oneline
+#+END_SRC
+
+#+RESULTS:
+: d32fa64 first commit
+
+* Working With the Command Line
+
+#+NAME: file-list
+#+BEGIN_SRC shell :results list
+ls
+#+END_SRC
+
+#+RESULTS: file-list
+- ("LICENSE")
+- ("literate-workflows.org")
+
+#+BEGIN_SRC sh :var LIST=file-list
+
+for URL in $LIST
+do
+    echo $URL
+done
+#+END_SRC
+
+#+RESULTS:
+| LICENSE                |
+| literate-workflows.org |
+
+** Commits
+
+[[https://dev.to/maxpou/git-cheat-sheet-advanced-3a17][GitHub Suggestions]]
+
+#+BEGIN_SRC shell
+git commit -a -m "update workflow examples"
+git push
+#+END_SRC
+
+- Edit last commit: ~git commit --amend -m "A better message"~
+- Add something to the last commit without writing message again: ~git add . && git commit --amend --no-edit~
+- empty commit - can be useful to re-trigger CI build... ~git commit --allow-empty -m "chore: re-trigger build"~
