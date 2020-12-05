@@ -1,0 +1,21 @@
+:PROPERTIES:
+:var: master="https://github.com/schmudde/literate-workflows.git"
+:results: output
+:END:
+
+Set to a new origin:
+
+C-c C-c
+
+~:results list~ This example runs in the shell. The results are placed back into the file, which can be used by other code blocks
+
+#+RESULTS:
+: - $master
+
+#+BEGIN_SRC shell :results list
+# git remote add origin "https://github.com/schmudde/literate-workflows.git"
+git remote show origin
+git push --set-upstream origin master
+#+END_SRC
+
+#+RESULTS:
